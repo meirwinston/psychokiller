@@ -1,0 +1,79 @@
+group 'com.psychokiller'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+ext{
+    env = "dev"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.testng:testng:6.11'
+
+    // https://mvnrepository.com/artifact/io.dropwizard/dropwizard-core
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.0'
+
+    // https://mvnrepository.com/artifact/io.dropwizard/dropwizard-jdbi
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: '1.1.0'
+
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    compile group: 'com.google.inject', name: 'guice', version: '4.1.0'
+
+    // https://mvnrepository.com/artifact/org.jdbi/jdbi
+    compile group: 'org.jdbi', name: 'jdbi', version: '2.10.1'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.41'
+
+    compile 'com.neovisionaries:nv-i18n:1.+'
+
+    compile ("com.zaxxer:HikariCP:2.6.1") {
+        exclude group: "org.slf4j", module: "*"
+    }
+}
+
+task copyResources(dependsOn: 'jar', type: org.gradle.api.tasks.Copy) {
+    from "${project.buildDir}/resources/main"
+    into "${project.buildDir}/release"
+    include "$env/*"
+    include "swagger/**"
+    include "run.sh"
+    include "run"
+}
+
+task copyMainJar(dependsOn: copyResources, type: org.gradle.api.tasks.Copy) {
+    from "${project.buildDir}/classes/main"
+    into "${project.buildDir}/release"
+    include "**/*"
+}
+
+task releaseTar(dependsOn: copyMainJar, type: org.gradle.api.tasks.bundling.Tar) {
+    classifier = "dist"
+    from "${project.buildDir}/release"
+    println "BUILD EXTENSION DIRECTORY: ${project.buildDir}, ROOT DIR: $rootDir"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.psychokiller.cli.Application'
+    }
+    doLast {
+        // Bring the runtime jars into the lib
+        configurations.runtime.files.each { file ->
+            copy {
+                from file
+                into "${project.buildDir}/release/lib"
+                exclude "jsr*.jar"
+            }
+        }
+    }
+}
+
+artifacts {
+    archives releaseTar
+}
