@@ -1,17 +1,18 @@
 package com.psychokiller.ws.resources;
 
-import com.psychokiller.ws.Saying;
+import com.psychokiller.wire.messages.Saying;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/ws")
+@Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MainResource {
-    @Path("sayHello")
+    @Path("test")
     @GET
-    public Saying sayHello() {
-        return new Saying(1, "Hello");
+    public Saying test() {
+        return new Saying("Hello");
     }
 
 }

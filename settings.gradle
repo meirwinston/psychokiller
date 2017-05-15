@@ -1,3 +1,5 @@
 rootProject.name = 'psychokiller'
-includeFlat 'psychokiller2'
+//includeFlat 'psychokiller-wire'
+//findProject('../psychokiller-wire')?.name = 'psychokiller-wire'
+include("../psychokiller-wire")
 

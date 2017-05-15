@@ -13,7 +13,17 @@ repositories {
 }
 
 dependencies {
-    testCompile 'org.testng:testng:6.11'
+//    testCompile 'org.testng:testng:6.11'
+
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // https://mvnrepository.com/artifact/io.dropwizard/dropwizard-testing
+    testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: '1.1.0'
+
+    // https://mvnrepository.com/artifact/com.wix/wix-embedded-mysql
+    testCompile group: 'com.wix', name: 'wix-embedded-mysql', version: '2.1.4'
+
 
     // https://mvnrepository.com/artifact/io.dropwizard/dropwizard-core
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.0'
@@ -30,11 +40,16 @@ dependencies {
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
 
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-maven-plugin
+    compile group: 'org.flywaydb', name: 'flyway-maven-plugin', version: '4.2.0'
+
     compile 'com.neovisionaries:nv-i18n:1.+'
 
     compile ("com.zaxxer:HikariCP:2.6.1") {
         exclude group: "org.slf4j", module: "*"
     }
+
+    compile project("../psychokiller-wire")
 }
 
 task copyResources(dependsOn: 'jar', type: org.gradle.api.tasks.Copy) {
@@ -56,6 +71,10 @@ task releaseTar(dependsOn: copyMainJar, type: org.gradle.api.tasks.bundling.Tar)
     classifier = "dist"
     from "${project.buildDir}/release"
     println "BUILD EXTENSION DIRECTORY: ${project.buildDir}, ROOT DIR: $rootDir"
+}
+
+task showMeCache << {
+    configurations.compile.each { println it }
 }
 
 jar {
