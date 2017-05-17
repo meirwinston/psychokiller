@@ -1,10 +1,8 @@
 package test.psychokiller;
 
-import com.psychokiller.cli.Application;
-import com.psychokiller.wire.messages.Account;
 import com.psychokiller.wire.messages.User;
 import com.psychokiller.ws.resources.AuthResource;
-import io.dropwizard.testing.junit.*;
+import io.dropwizard.testing.junit.ResourceTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -12,38 +10,33 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.skife.jdbi.v2.Handle;
 import org.skife.jdbi.v2.Query;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
 @Ignore
-public class AuthResourceTest {
+public class ResourceTest {
     private static final String API_URL = "/v1/auth";
     private Client client;
 
     @ClassRule
     public static DaoRule daoRule = new DaoRule();
 
-//    @ClassRule
-//    public static ResourceTestRule resourceTestRule =
-//            ResourceTestRule
-//                    .builder()
-//                    .addProvider(new AuthResource(daoRule.getDBI()))
-//                    .build();
-
     @ClassRule
-    public static DropwizardAppRule dropwizardAppRule = new DropwizardAppRule(Application.class,"/Users/mwinston/IdeaProjects/psychokiller/src/test/resources/dev/config.yml");
+    public static ResourceTestRule resourceTestRule =
+            ResourceTestRule
+                    .builder()
+                    .addProvider(new AuthResource(daoRule.getDBI()))
+                    .build();
 
     @Before
     public void setUp() {
-        this.client = dropwizardAppRule.client();
+        this.client = resourceTestRule.client();
     }
 
     @After

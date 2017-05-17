@@ -2,19 +2,23 @@ package com.psychokiller.ws.resources;
 
 import com.google.inject.Inject;
 import com.psychokiller.wire.messages.Account;
+import com.psychokiller.wire.messages.User;
 import com.psychokiller.ws.beans.LoginRequest;
 import com.psychokiller.ws.beans.LoginResponse;
 import com.psychokiller.db.AccountDao;
+import io.dropwizard.auth.Auth;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Enumeration;
 
-@Path("/v1/auth")
+@Path("/v1/session")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
@@ -35,7 +39,18 @@ public class AuthResource {
         if (id <= 0) {
             throw new WebApplicationException("Could not insert");
         }
+        try {
+            request.login(account.getPhoneNumber(),"");
+        } catch (ServletException e) {
+            e.printStackTrace();
+        }
         request.getSession().setAttribute("phoneNumber", account.getPhoneNumber());
+    }
+
+    @Path("")
+    @POST
+    public void login(@Auth User user) {
+        System.out.println(user);
     }
 
 //    @Path("login")

@@ -2,6 +2,7 @@ package com.psychokiller;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.psychokiller.cli.Application;
 import com.psychokiller.ws.*;
 import com.psychokiller.ws.resources.AuthResource;
 import com.psychokiller.ws.resources.MainResource;
@@ -22,10 +23,10 @@ public class MainModule extends AbstractModule{
         Names.bindProperties(binder(),this.properties);
 
         install(new DbModule());
-        bind(WebServiceApplication.class).asEagerSingleton();
+        bind(Application.class).asEagerSingleton();
         bind(MainResource.class).asEagerSingleton();
         bind(AuthResource.class).asEagerSingleton();
-        bind(AuthFilter.class).asEagerSingleton();
+//        bind(AuthFilter.class).asEagerSingleton();
     }
 
 }

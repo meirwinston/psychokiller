@@ -9,6 +9,8 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MainResource {
+
+//    http://localhost:8080/v1/test
     @Path("test")
     @GET
     public Saying test() {

@@ -30,8 +30,8 @@ public class WebServiceApplication extends Application<Configuration> {
     @Inject
     private AuthResource authResource;
 
-    @Inject
-    private AuthFilter authFilter;
+//    @Inject
+//    private AuthFilter authFilter;
 
     @Inject
     private ResolvedProperties properties;
@@ -63,9 +63,9 @@ public class WebServiceApplication extends Application<Configuration> {
         //to be able to get session: request.getSession()
         environment.servlets().setSessionHandler(new SessionHandler());
 
-        environment.servlets()
-                .addFilter("AuthFilter", authFilter)
-                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/topic/*", "/organization/*");
+//        environment.servlets()
+//                .addFilter("AuthFilter", authFilter)
+//                .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/topic/*", "/organization/*");
     }
 
     private static String getPulicIP() throws IOException {
