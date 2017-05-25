@@ -68,36 +68,4 @@ public class ResourceTest {
         System.out.println("DONE");
     }
 
-//    Lifecycle postLifecycle(long clientId, Lifecycle lifecycle, UUID oldLifecycleId, Lifecycle.Status oldLifecycleStatus) {
-//        StringBuilder path = new StringBuilder(String.format("/lo/config/clients/%d/lifecycles?", clientId));
-//        if (oldLifecycleId != null) {
-//            path.append("oldLifecycleId=" + oldLifecycleId + "&");
-//        }
-//        if (oldLifecycleStatus != null) {
-//            path.append("oldStatus=" + oldLifecycleStatus + "&");
-//        }
-//        return client.target(path.toString())
-//                     .request(MediaType.APPLICATION_JSON_TYPE)
-//                     .post(Entity.json(lifecycle), Lifecycle.class);
-//    }
-
-//    private List<Lifecycle> getLifecycles(long clientId) {
-//        return client.target(String.format("/lo/config/clients/%d/lifecycles", clientId))
-//                     .request(MediaType.APPLICATION_JSON_TYPE)
-//                     .get(new GenericType<List<Lifecycle>>() {
-//                     });
-//    }
-//
-//    private Lifecycle getLifecycle(long clientId, UUID lifecycleId) {
-//        return client.target(String.format("/lo/config/clients/%d/lifecycles/%s", clientId, lifecycleId))
-//                     .request(MediaType.APPLICATION_JSON_TYPE)
-//                     .get(Lifecycle.class);
-//    }
-//
-//    private void deleteLifecycle(long clientId, UUID lifecycleId) {
-//        client.target(String.format("/lo/config/clients/%d/lifecycles/%s", clientId, lifecycleId))
-//              .request(MediaType.APPLICATION_JSON_TYPE)
-//              .delete(void.class);
-//    }
-
 }
