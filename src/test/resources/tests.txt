@@ -1,0 +1,1 @@
+curl -v -H "Content-Type: application/json" --user "7328889999:a" http://localhost:8080/v1/test
